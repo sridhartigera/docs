@@ -173,9 +173,22 @@ The default **node-to-node BGP mesh** may be turned off to enable other BGP topo
 
 Run the following command to disable the BGP full-mesh:
 
+<Tabs>
+<TabItem label="Kubernetes API datastore" value="kubernetes-api-datastore" default>
+
+```bash
+kubectl patch bgpconfiguration default -p '{"spec": {"nodeToNodeMeshEnabled": false}}'
+```
+
+</TabItem>
+<TabItem label="etcd datastore" value="etcd-datastore">
+
 ```bash
 calicoctl patch bgpconfiguration default -p '{"spec": {"nodeToNodeMeshEnabled": false}}'
 ```
+
+</TabItem>
+</Tabs>
 
 :::note
 
@@ -230,9 +243,23 @@ This command communicates with the local {{prodname}} agent, so you must execute
 
 By default, all Calico nodes use the 64512 autonomous system, unless a per-node AS has been specified for the node. You can change the global default for all nodes by modifying the default **BGPConfiguration** resource. The following example command sets the global default AS number to **64513**.
 
+<Tabs>
+<TabItem label="Kubernetes API datastore" value="kubernetes-api-datastore" default>
+
+```bash
+kubectl patch bgpconfiguration default -p '{"spec": {"asNumber": "64513"}}'
+```
+
+</TabItem>
+<TabItem label="etcd datastore" value="etcd-datastore">
+
 ```bash
 calicoctl patch bgpconfiguration default -p '{"spec": {"asNumber": "64513"}}'
 ```
+
+</TabItem>
+</Tabs>
+
 
 :::note
 
@@ -244,9 +271,22 @@ If the default BGP configuration resource does not exist, you need to create it 
 
 You can configure an AS for a particular node by modifying the node object using `calicoctl`. For example, the following command changes the node named **node-1** to belong to **AS 64514**.
 
+<Tabs>
+<TabItem label="Kubernetes API datastore" value="kubernetes-api-datastore" default>
+
+```bash
+kubectl annotate node node-1 projectcalico.org/ASNumber=64514
+```
+
+</TabItem>
+<TabItem label="etcd datastore" value="etcd-datastore">
+
 ```bash
 calicoctl patch node node-1 -p '{"spec": {"bgp": {"asNumber": "64514"}}}'
 ```
+
+</TabItem>
+</Tabs>
 
 ### Configure a BGP filter
 
